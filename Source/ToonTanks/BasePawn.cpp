@@ -3,6 +3,8 @@
 #include "BasePawn.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Projectile.h"
+#include "HealthComponent.h"
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -22,6 +24,13 @@ ABasePawn::ABasePawn()
 
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Spawn point"));
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+
+	HealthComp = CreateDefaultSubobject<UHealthComponent>(TEXT("Health"));
+}
+
+void ABasePawn::HandleDestruction()
+{
+	// TODO: Visual/sound effects
 }
 
 void ABasePawn::RotateTurret(FVector lookAtTarget)
@@ -53,7 +62,8 @@ void ABasePawn::RotateTurret(FRotator rotation)
 
 void ABasePawn::Fire()
 {
-	DrawDebugSphere(GetWorld(), ProjectileSpawnPoint->GetComponentLocation(), 20.0f, 12, FColor::Red, false, 3.0f);
+	AProjectile* projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
+	projectile->SetOwner(this);
 }
 
 

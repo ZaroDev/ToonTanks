@@ -20,9 +20,13 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	void HandleDestruction();
+
 private:
 	void CheckFireCondition();
 	bool IsInRange();
+
 private:
 	class ATank* Tank;
 

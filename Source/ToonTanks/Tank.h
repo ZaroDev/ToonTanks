@@ -24,6 +24,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	void HandleDestruction();
+
+
+	inline APlayerController* GetTankPlayerController() const { return TankPlayerController; }
 private:
 	void Move(float value);
 	void Rotate(float value);
@@ -43,5 +48,5 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
 	float TurnRate = 100.0f;
 
-	APlayerController* PlayerControllerRef = nullptr;
+	APlayerController* TankPlayerController = nullptr;
 };
