@@ -3,6 +3,9 @@
 #include "Tank.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/InputComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
 
 ATank::ATank()
 {
@@ -11,4 +14,46 @@ ATank::ATank()
 
     CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
     CameraComp->SetupAttachment(SpringArmComp);
+}
+
+void ATank::BeginPlay()
+{
+    Super::BeginPlay();
+
+    PlayerControllerRef = Cast<APlayerController>(GetController()); 
+}
+
+// Called every frame
+void ATank::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
+    if (PlayerControllerRef)
+    {
+        FHitResult hitResult;
+        PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult);
+    }
+}
+
+void ATank::Move(float value)
+{
+    FVector deltaLocation = FVector::ZeroVector;
+    deltaLocation.X = value * Velocity * UGameplayStatics::GetWorldDeltaSeconds(this);
+    AddActorLocalOffset(deltaLocation, true);
+}
+
+void ATank::Rotate(float value)
+{
+    FRotator deltaRotation = FRotator::ZeroRotator;
+    deltaRotation.Yaw = value * TurnRate * UGameplayStatics::GetWorldDeltaSeconds(this);
+    AddActorLocalRotation(deltaRotation);
+}
+
+// Called to bind functionality to input
+void ATank::SetupPlayerInputComponent(UInputComponent *PlayerInputComponent)
+{
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+    PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ATank::Move);
+    PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATank::Rotate);
 }
