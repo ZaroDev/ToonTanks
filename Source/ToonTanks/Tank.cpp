@@ -5,7 +5,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/InputComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "DrawDebugHelpers.h"
 
 ATank::ATank()
 {
@@ -32,6 +31,7 @@ void ATank::Tick(float DeltaTime)
     {
         FHitResult hitResult;
         PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult);
+        RotateTurret(hitResult.ImpactPoint);
     }
 }
 
