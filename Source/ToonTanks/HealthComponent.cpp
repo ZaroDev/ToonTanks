@@ -4,6 +4,7 @@
 #include "HealthComponent.h"
 #include "ToonTanksGameMode.h"
 #include "Kismet/GameplayStatics.h"
+#include "BasePawn.h"
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
 {

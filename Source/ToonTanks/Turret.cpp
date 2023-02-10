@@ -50,6 +50,8 @@ bool ATurret::IsInRange()
 {
 	if (!Tank)
 		return false;
+	else if (!Tank->bAlive)
+		return false;
 
 	return FVector::Dist(GetActorLocation(), Tank->GetActorLocation()) <= Range;
 }

@@ -28,11 +28,26 @@ private:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* BaseMesh;
+	class UStaticMeshComponent* BaseMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	class UProjectileMovementComponent* ProjectileMovementComp;
+	class UProjectileMovementComponent* ProjectileMovementComp = nullptr;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	class UParticleSystemComponent* SmokeTrail = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Combat")
 	float Damage = 50.0f;
+
+	UPROPERTY(EditAnywhere, Category="Combat")
+	class UParticleSystem* HitParticle = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	class USoundBase* LaunchSound = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	class USoundBase* HitSound = nullptr;
+
+	UPROPERTY(EditAnywhere, Category="Combat")
+	TSubclassOf<class UCameraShakeBase> HitCameraShakeClass = nullptr;
 };
